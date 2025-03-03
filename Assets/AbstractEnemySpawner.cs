@@ -10,22 +10,26 @@ namespace EnemySpawner{
 
   public abstract class AbstractEnemy
   {
-    protected string _prefabName;
-    protected GameObject _prefab;
+    private GameObject _prefab;
 
-    public AbstractEnemy()
+    public AbstractEnemy(string prefabName)
     {
-      this.getPrefabFromResource();
+      this.getPrefabFromResource(prefabName);
     }
 
-    public void getPrefabFromResource()
+    public void getPrefabFromResource(string prefabName)
     {
-      _prefab = Resources.Load(String.Format("{0}", _prefabName)) as GameObject;
+      _prefab = Resources.Load(String.Format("{0}", prefabName)) as GameObject;
     }
 
     public GameObject getPrefab()
     {
       return _prefab;
+    }
+
+    public void createAbstractEnemy()
+    {
+      UnityEngine.Object.Instantiate(_prefab);
     }
   }
 
@@ -33,7 +37,14 @@ namespace EnemySpawner{
   {
     protected abstract class AbstractEnemyFactory : IAbstractEnemyFactory
     {
-      public abstract AbstractEnemy createAbstractEnemy();
+      public AbstractEnemy createAbstractEnemy()
+      {
+        AbstractEnemy enemySpawner = getEnemySpawner();
+        enemySpawner.getPrefab();
+        return enemySpawner;
+      }
+
+      public abstract AbstractEnemy getEnemySpawner();
     }
 
     void Start()
@@ -41,7 +52,7 @@ namespace EnemySpawner{
       abstractStart();
     }
 
-    public abstract void abstractStart();
+    public virtual void abstractStart(){}
   }
 }
 

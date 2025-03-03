@@ -5,9 +5,8 @@ using UnityEngine;
 namespace EnemySpawner{
   class BlueEnemy : AbstractEnemy
   {
-    public BlueEnemy() : base()
+    public BlueEnemy(string prefabName) : base(prefabName)
     {
-      _prefabName = "BlueEnemy";
     }
   }
 
@@ -17,17 +16,10 @@ namespace EnemySpawner{
 
     protected class BlueEnemyFactory : AbstractEnemyFactory
     {
-      public override AbstractEnemy createAbstractEnemy()
+      public override AbstractEnemy getEnemySpawner()
       {
-        return new BlueEnemy();
+        return new BlueEnemy("BlueEnemy");
       }
-    }
-
-    public override void abstractStart()
-    {
-      var blueEnemy = BlueEnemySpawner.blueEnemyFactory.createAbstractEnemy() as BlueEnemy;
-      blueEnemy.getPrefabFromResource();
-      Instantiate(blueEnemy.getPrefab());
     }
   }
 }

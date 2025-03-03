@@ -1,32 +1,23 @@
 using UnityEngine;
 
-
 namespace EnemySpawner{
-  sealed class RedEnemy : AbstractEnemy
+  class RedEnemy : AbstractEnemy
   {
-    public RedEnemy() : base()
+    public RedEnemy(string prefabName) : base(prefabName)
     {
-      _prefabName = "RedEnemy";
     }
   }
 
-  class RedEnemySpawner : AbstractEnemySpawner
+  public class RedEnemySpawner : AbstractEnemySpawner
   {
-    private static RedEnemyFactory redEnemyFactory = new RedEnemyFactory();
+    private static RedEnemyFactory blueEnemyFactory = new RedEnemyFactory();
 
     protected class RedEnemyFactory : AbstractEnemyFactory
     {
-      public override AbstractEnemy createAbstractEnemy()
+      public override AbstractEnemy getEnemySpawner()
       {
-        return new RedEnemy();
+        return new RedEnemy("RedEnemy");
       }
-    }
-
-    public override void abstractStart()
-    {
-      var redEnemy = RedEnemySpawner.redEnemyFactory.createAbstractEnemy() as RedEnemy;
-      redEnemy.getPrefabFromResource();
-      Instantiate(redEnemy.getPrefab());
     }
   }
 }

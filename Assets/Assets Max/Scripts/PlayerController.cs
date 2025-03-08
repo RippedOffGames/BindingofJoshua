@@ -33,7 +33,14 @@ public class PlayerController: MonoBehaviour
 
         if ((shootHor != 0 || shootVert != 0) && Time.time > lastFire + fireDelay) // this will check if the shoot horizontal or shoot vertical is not equal to 0 and if the time is greater than the last fire plus the fire delay
         {
-            Shoot(shootHor, shootVert);
+            if (Mathf.Abs(shootHor) > Mathf.Abs(shootVert)) // this will check if the absolute value of the shoot horizontal is greater than the absolute value of the shoot vertical
+            {
+                Shoot(shootHor, 0); // this will set the shoot vertical to 0
+            }
+            else
+            {
+                Shoot(0, shootVert); // this will set the shoot horizontal to 0
+            }
             lastFire = Time.time; // this will set the last fire to the current time
         }
 
@@ -45,17 +52,20 @@ public class PlayerController: MonoBehaviour
             movement.Normalize();
         }
         rigidbody.linearVelocity = movement * speed; // this will set the velocity of the rigidbody to the movement vector multiplied by the speed
+
+        
     }
     
     void Shoot(float x, float y)
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject; // this will instantiate the bullet prefab at the position of the player and the rotation of the player
+
         bullet.AddComponent<Rigidbody2D>().gravityScale = 0; // this will add a rigidbody2d component to the bullet and set the gravity scale to 0 POWERUP/EFFECT POTENTIAL
         bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector3( // this will set the velocity of the bullet to the x and y input multiplied by the bullet speed
             (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed, // this will set the x velocity of the bullet to the x input multiplied by the bullet speed
             (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed,
             0
-        );// this will set the y velocity of the bullet to the y input multiplied by the bullet speed
+        ) + rigidbody.angular;// this will set the y velocity of the bullet to the y input multiplied by the bullet speed
     }
 
 }

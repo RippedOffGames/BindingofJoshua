@@ -2,11 +2,11 @@ using UnityEngine;
 
 
 // Max Schmit 2/28/2025
-public class PlayerController: MonoBehaviour
+public class PlayerControllerMax: MonoBehaviour
 {
     // Vars
     public float speed;
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
     public GameObject bulletPrefab; // this will be the bullet prefab that we will instantiate
     public float bulletSpeed; // this will be the rate of bulletfire
     public float lastFire;
@@ -16,7 +16,7 @@ public class PlayerController: MonoBehaviour
     // Methods
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>(); // this will find the rigidbody2d component and set it equal to the variable rigidbody
+        rb = GetComponent<Rigidbody2D>(); // this will find the rigidbody2d component and set it equal to the variable rigidbody
     }
 
 
@@ -51,7 +51,7 @@ public class PlayerController: MonoBehaviour
         {
             movement.Normalize();
         }
-        rigidbody.linearVelocity = movement * speed; // this will set the velocity of the rigidbody to the movement vector multiplied by the speed
+        rb.linearVelocity = movement * speed; // this will set the velocity of the rigidbody to the movement vector multiplied by the speed
 
         
     }
@@ -61,11 +61,9 @@ public class PlayerController: MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject; // this will instantiate the bullet prefab at the position of the player and the rotation of the player
 
         bullet.AddComponent<Rigidbody2D>().gravityScale = 0; // this will add a rigidbody2d component to the bullet and set the gravity scale to 0 POWERUP/EFFECT POTENTIAL
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector3( // this will set the velocity of the bullet to the x and y input multiplied by the bullet speed
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2( // this will set the velocity of the bullet to the x and y input multiplied by the bullet speed
             (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed, // this will set the x velocity of the bullet to the x input multiplied by the bullet speed
-            (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed,
-            0
-        ) + rigidbody.angular;// this will set the y velocity of the bullet to the y input multiplied by the bullet speed
+            (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed);// this will set the y velocity of the bullet to the y input multiplied by the bullet speed
     }
 
 }

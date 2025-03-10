@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManagerDeja : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] powerUps; // Assign different power-up prefabs in the Inspector

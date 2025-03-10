@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerDeja : MonoBehaviour
 {
     private float baseSpeed = 5f;
     private float baseFireRate = 0.5f;

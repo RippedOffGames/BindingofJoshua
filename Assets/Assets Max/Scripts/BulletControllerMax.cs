@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Max Schmit 2/28/2025
-public class BulletController : MonoBehaviour
+public class BulletControllerMax : MonoBehaviour
 {
     // VARS
     public float lifeTime; // this will be the lifetime of the bullet

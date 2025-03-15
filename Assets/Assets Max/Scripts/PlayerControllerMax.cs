@@ -55,15 +55,31 @@ public class PlayerControllerMax: MonoBehaviour
 
         
     }
-    
+
     void Shoot(float x, float y)
     {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject; // this will instantiate the bullet prefab at the position of the player and the rotation of the player
+        // Calculate the shooting direction and normalize it
+        Vector2 shootDirection = new Vector2(x, y).normalized;
 
-        bullet.AddComponent<Rigidbody2D>().gravityScale = 0; // this will add a rigidbody2d component to the bullet and set the gravity scale to 0 POWERUP/EFFECT POTENTIAL
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2( // this will set the velocity of the bullet to the x and y input multiplied by the bullet speed
-            (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed, // this will set the x velocity of the bullet to the x input multiplied by the bullet speed
-            (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed);// this will set the y velocity of the bullet to the y input multiplied by the bullet speed
+        // Calculate the bullet spawn position by moving half a unit in the shooting direction
+        Vector2 bulletSpawnPosition = (Vector2)transform.position + shootDirection * 0.5f;
+
+        // Instantiate the bullet at the calculated position and player's rotation
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, transform.rotation) as GameObject;
+
+        // Add a Rigidbody2D component to the bullet if it doesn't already have one
+        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+        if (bulletRb == null)
+        {
+            bulletRb = bullet.AddComponent<Rigidbody2D>();
+        }
+
+        // Set the bullet's Rigidbody2D to be kinematic to prevent it from affecting the player's physics
+        bulletRb.gravityScale = 0;
+        bulletRb.bodyType = RigidbodyType2D.Kinematic;
+
+        // Set the bullet's velocity based on the input direction and bullet speed
+        bulletRb.linearVelocity = shootDirection * bulletSpeed;
     }
 
 }

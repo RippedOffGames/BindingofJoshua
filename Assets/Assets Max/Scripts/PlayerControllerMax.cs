@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerControllerMax: MonoBehaviour
 {
     // Vars
+    public static PlayerControllerMax Instance { get; private set; }
+
+
     public float speed;
     Rigidbody2D rb;
     public GameObject bulletPrefab; // this will be the bullet prefab that we will instantiate
@@ -14,13 +17,27 @@ public class PlayerControllerMax: MonoBehaviour
 
 
     // Methods
+    private void Awake()
+    {
+        // Ensure that there is only one instance of PlayerControllerMax
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // this will find the rigidbody2d component and set it equal to the variable rigidbody
+        rb = GetComponent<Rigidbody2D>();
+        SaveControllerMax.Load(); // Load game state when the player starts
     }
 
 
-    
+
     private void Update() // called once per frame
     {
         float horizontal = Input.GetAxis("Horizontal"); 
@@ -82,4 +99,28 @@ public class PlayerControllerMax: MonoBehaviour
         bulletRb.linearVelocity = shootDirection * bulletSpeed;
     }
 
+
+    public void Save(ref PlayerSaveData data)
+    {
+        data.Position = transform.position;
+    }
+
+    public void Load(ref PlayerSaveData data)
+    {
+        transform.position = data.Position;
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveControllerMax.Save();
+    }
+
+
+}
+
+
+[System.Serializable]
+public struct PlayerSaveData
+{
+    public Vector3 Position;
 }

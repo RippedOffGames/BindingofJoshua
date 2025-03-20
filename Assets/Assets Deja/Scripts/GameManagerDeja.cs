@@ -1,20 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameManagerDeja : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] powerUps; // Assign different power-up prefabs in the Inspector
+    private GameObject[] powerUps; // Assign power-up prefabs in Inspector
     [SerializeField]
-    private int powerupsPerType = 5; // Number of each power-up type to spawn
-    private Vector2 spawnAreaSize = new Vector2(50, 50);
+    private int powerupsPerType = 5; // Number of each type to spawn
+    [SerializeField]
     private float powerUpSpawnInterval = 10f; // Time between spawns
+    public Tilemap tilemap;
+
+    private List<Vector2> validSpawnPositions = new List<Vector2>();
 
     void Start()
     {
+        GetValidTilePositions();
         SpawnPowerUps();
         StartCoroutine(SpawnPowerUpsPeriodically());
+    }
+
+    void GetValidTilePositions()
+    {
+        BoundsInt bounds = tilemap.cellBounds;
+        TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
+
+        for (int x = bounds.xMin; x < bounds.xMax; x++)
+        {
+            for (int y = bounds.yMin; y < bounds.yMax; y++)
+            {
+                TileBase tile = tilemap.GetTile(new Vector3Int(x, y, 0));
+                if (tile != null)
+                {
+                    Vector3 worldPosition = tilemap.CellToWorld(new Vector3Int(x, y, 0)) + new Vector3(0.5f, 0.5f, 0);
+                    validSpawnPositions.Add(worldPosition);
+                }
+            }
+        }
     }
 
     void SpawnPowerUps()
@@ -23,30 +47,34 @@ public class GameManagerDeja : MonoBehaviour
         {
             for (int i = 0; i < powerupsPerType; i++)
             {
-                Vector3 randomPosition = GetRandomPosition();
-                Instantiate(powerUp, randomPosition, Quaternion.identity);
+                if (validSpawnPositions.Count == 0) return;
+
+                int randomIndex = Random.Range(0, validSpawnPositions.Count);
+                Vector3 spawnPosition = validSpawnPositions[randomIndex];
+
+                Instantiate(powerUp, spawnPosition, Quaternion.identity);
             }
         }
     }
 
-    IEnumerator SpawnPowerUpsPeriodically()
+        IEnumerator SpawnPowerUpsPeriodically()
     {
         while (true)
         {
             yield return new WaitForSeconds(powerUpSpawnInterval);
 
-            // Randomly choose a power-up to spawn
             GameObject powerUpToSpawn = powerUps[Random.Range(0, powerUps.Length)];
-            Vector3 randomPosition = GetRandomPosition();
-            Instantiate(powerUpToSpawn, randomPosition, Quaternion.identity);
+            Vector3 spawnPosition = GetRandomGridPosition();
+            Instantiate(powerUpToSpawn, spawnPosition, Quaternion.identity);
         }
     }
 
-    Vector3 GetRandomPosition()
+    Vector3 GetRandomGridPosition()
     {
-        float x = Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2);
-        float y = 0; // Adjust if power-ups need to float
-        float z = Random.Range(-spawnAreaSize.y / 2, spawnAreaSize.y / 2);
-        return new Vector3(x, y, z);
+        if (validSpawnPositions.Count == 0) return Vector3.zero;
+
+        int randomIndex = Random.Range(0, validSpawnPositions.Count);
+        Vector2 gridPosition = validSpawnPositions[randomIndex];
+        return new Vector3(gridPosition.x, 0, gridPosition.y); // Adjust Y if needed
     }
 }

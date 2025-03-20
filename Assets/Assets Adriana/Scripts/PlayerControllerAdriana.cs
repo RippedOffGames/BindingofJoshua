@@ -79,12 +79,22 @@ public class PlayerControllerAdriana: MonoBehaviour
 
     void Shoot(float x, float y)
     {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject; // this will instantiate the bullet prefab at the position of the player and the rotation of the player
+        Vector2 shootDirection = new Vector2(x, y).normalized;
+        Vector2 bulletSpawnPosition = (Vector2)transform.position + shootDirection * 0.5f;
 
-        bullet.AddComponent<Rigidbody2D>().gravityScale = 0; // this will add a rigidbody2d component to the bullet and set the gravity scale to 0 POWERUP/EFFECT POTENTIAL
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2( // this will set the velocity of the bullet to the x and y input multiplied by the bullet speed
-            (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed, // this will set the x velocity of the bullet to the x input multiplied by the bullet speed
-            (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed);
+        GameObject bullet = BulletPoolingAdriana.Instance.GetBullet();
+        bullet.transform.position = bulletSpawnPosition;
+        bullet.transform.rotation = transform.rotation;
+
+        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+        if (bulletRb == null)
+        {
+            bulletRb = bullet.AddComponent<Rigidbody2D>();
+        }
+
+        bulletRb.gravityScale = 0;
+        bulletRb.bodyType = RigidbodyType2D.Kinematic;
+        bulletRb.linearVelocity = shootDirection * bulletSpeed;
     }
 
     /*

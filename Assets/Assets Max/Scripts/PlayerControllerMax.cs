@@ -75,29 +75,24 @@ public class PlayerControllerMax: MonoBehaviour
 
     void Shoot(float x, float y)
     {
-        // Calculate the shooting direction and normalize it
         Vector2 shootDirection = new Vector2(x, y).normalized;
-
-        // Calculate the bullet spawn position by moving half a unit in the shooting direction
         Vector2 bulletSpawnPosition = (Vector2)transform.position + shootDirection * 0.5f;
 
-        // Instantiate the bullet at the calculated position and player's rotation
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, transform.rotation) as GameObject;
+        GameObject bullet = BulletPool.Instance.GetBullet();
+        bullet.transform.position = bulletSpawnPosition;
+        bullet.transform.rotation = transform.rotation;
 
-        // Add a Rigidbody2D component to the bullet if it doesn't already have one
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
         if (bulletRb == null)
         {
             bulletRb = bullet.AddComponent<Rigidbody2D>();
         }
 
-        // Set the bullet's Rigidbody2D to be kinematic to prevent it from affecting the player's physics
         bulletRb.gravityScale = 0;
         bulletRb.bodyType = RigidbodyType2D.Kinematic;
-
-        // Set the bullet's velocity based on the input direction and bullet speed
         bulletRb.linearVelocity = shootDirection * bulletSpeed;
     }
+
 
 
     public void Save(ref PlayerSaveData data)

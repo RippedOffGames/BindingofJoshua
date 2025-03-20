@@ -5,7 +5,7 @@ using UnityEngine;
 //Max Schmit 2/28/2025
 public class BulletControllerMax : MonoBehaviour
 {
-    public float lifeTime;
+    [SerializeField] private float lifeTime;
 
     void OnEnable()
     {

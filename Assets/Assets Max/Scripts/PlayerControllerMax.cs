@@ -3,31 +3,49 @@ using UnityEngine;
 
 
 // Max Schmit 2/28/2025
-public class PlayerControllerMax: MonoBehaviour
+public class PlayerControllerMax : MonoBehaviour
 {
     // Vars
+    public static PlayerControllerMax Instance { get; private set; }
+
+
     public float speed;
     Rigidbody2D rb;
-    public int health = 100;
-    public int damage = 10;
     public GameObject bulletPrefab; // this will be the bullet prefab that we will instantiate
     public float bulletSpeed; // this will be the rate of bulletfire
     public float lastFire;
     public float fireDelay;
+    public int health = 100;
+    public int damage = 10;
+
 
 
     // Methods
+    private void Awake()
+    {
+        // Ensure that there is only one instance of PlayerControllerMax
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // this will find the rigidbody2d component and set it equal to the variable rigidbody
+        rb = GetComponent<Rigidbody2D>();
+        SaveControllerMax.Load(); // Load game state when the player starts
     }
 
 
-    
+
     private void Update() // called once per frame
     {
-        float horizontal = Input.GetAxis("Horizontal"); 
-        float vertical = Input.GetAxis("Vertical"); 
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
 
         // defining shoot horizintal and shoot vertical
@@ -56,26 +74,53 @@ public class PlayerControllerMax: MonoBehaviour
         }
         rb.linearVelocity = movement * speed; // this will set the velocity of the rigidbody to the movement vector multiplied by the speed
 
-        
+
     }
-    
+
     void Shoot(float x, float y)
     {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject; // this will instantiate the bullet prefab at the position of the player and the rotation of the player
+        Vector2 shootDirection = new Vector2(x, y).normalized;
+        Vector2 bulletSpawnPosition = (Vector2)transform.position + shootDirection * 0.5f;
 
-        bullet.AddComponent<Rigidbody2D>().gravityScale = 0; // this will add a rigidbody2d component to the bullet and set the gravity scale to 0 POWERUP/EFFECT POTENTIAL
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2( // this will set the velocity of the bullet to the x and y input multiplied by the bullet speed
-            (x < 0) ? Mathf.Floor(x) * bulletSpeed : Mathf.Ceil(x) * bulletSpeed, // this will set the x velocity of the bullet to the x input multiplied by the bullet speed
-            (y < 0) ? Mathf.Floor(y) * bulletSpeed : Mathf.Ceil(y) * bulletSpeed);// this will set the y velocity of the bullet to the y input multiplied by the bullet speed
+        GameObject bullet = BulletPool.Instance.GetBullet();
+        bullet.transform.position = bulletSpawnPosition;
+        bullet.transform.rotation = transform.rotation;
+
+        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+        if (bulletRb == null)
+        {
+            bulletRb = bullet.AddComponent<Rigidbody2D>();
+        }
+
+        bulletRb.gravityScale = 0;
+        bulletRb.bodyType = RigidbodyType2D.Kinematic;
+        bulletRb.linearVelocity = shootDirection * bulletSpeed;
+    }
+
+
+
+    public void Save(ref PlayerSaveData data)
+    {
+        data.Position = transform.position;
+    }
+
+    public void Load(ref PlayerSaveData data)
+    {
+        transform.position = data.Position;
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveControllerMax.Save();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         ApplyPowerUp(other.gameObject.tag);
-        Destroy(other.gameObject); // Remove power-up after applying
+        Destroy(other.gameObject);
     }
 
-    void ApplyPowerUp(string powerUpTag)
+    public void ApplyPowerUp(string powerUpTag)
     {
         IMovementStrategyDeja strategy = StrategyFactoryDeja.GetStrategy(powerUpTag);
         if (strategy != null)
@@ -88,4 +133,13 @@ public class PlayerControllerMax: MonoBehaviour
         }
     }
 
+
+
+}
+
+
+[System.Serializable]
+public struct PlayerSaveData
+{
+    public Vector3 Position;
 }

@@ -8,12 +8,12 @@ public class PlayerControllerMax: MonoBehaviour
     public static PlayerControllerMax Instance { get; private set; }
 
 
-    public float speed;
+    [SerializeField] private float speed;
     Rigidbody2D rb;
     public GameObject bulletPrefab; // this will be the bullet prefab that we will instantiate
-    public float bulletSpeed; // this will be the rate of bulletfire
-    public float lastFire;
-    public float fireDelay;
+    [SerializeField] private float bulletSpeed; // this will be the rate of bulletfire
+    [SerializeField] private float lastFire;
+    [SerializeField] private float fireDelay;
 
 
     // Methods

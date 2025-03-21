@@ -18,7 +18,6 @@ public class BulletControllerAdriana : MonoBehaviour
         if (BulletPoolingAdriana.Instance != null)
         {
             BulletPoolingAdriana.Instance.ReturnBullet(gameObject); // Return to pool when time is up
-            Debug.LogError("BulletPool is missing from the scene");
         }
         else
         {
@@ -29,7 +28,12 @@ public class BulletControllerAdriana : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // Handle collision logic (damage enemies)
-        BulletPoolingAdriana.Instance.ReturnBullet(gameObject); // Return to pool when hitting something
+        Enemy enemy = collision.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(1); // Deal 1 damage per hit
+        }
+
+        BulletPoolingAdriana.Instance.ReturnBullet(gameObject);
     }
 }

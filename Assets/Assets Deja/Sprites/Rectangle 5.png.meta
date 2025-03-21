@@ -135,11 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-<<<<<<< Updated upstream:Assets/Assets Deja/Sprites/Rectangle 5.png.meta
-      Menu_button_0: -7383357740008599782
-=======
-      dmg._0: 4976100089409927622
->>>>>>> Stashed changes:Assets/Assets Max/Sprites/dmg..png.meta
+      Rectangle 5_0: 5359986216648080172
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

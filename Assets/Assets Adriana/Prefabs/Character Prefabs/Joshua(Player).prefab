@@ -136,14 +136,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 862833578846688362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75cb7dc4c2b3af1438f202d1098f30be, type: 3}
+  m_Script: {fileID: 11500000, guid: 93f0298ff5c11e74e96451aa8ac7f5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  bulletPrefab: {fileID: 0}
-  bulletSpeed: 0
+  speed: 5
+  bulletPrefab: {fileID: 8791401441868817918, guid: 55058b95fce87b7488ca73bd081a9404, type: 3}
+  bulletSpeed: 2
   lastFire: 0
-  fireDelay: 0
+  fireDelay: 0.25
+  worldCamera: {fileID: 5088004069334926592, guid: 13be5521f678fd443bae184f0ede990c, type: 3}
 --- !u!50 &7060940243274698718
 Rigidbody2D:
   serializedVersion: 5

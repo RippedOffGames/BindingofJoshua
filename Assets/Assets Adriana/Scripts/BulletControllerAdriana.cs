@@ -5,27 +5,31 @@ using UnityEngine;
 //Max Schmit 2/28/2025
 public class BulletControllerAdriana : MonoBehaviour
 {
-    // VARS
-    public float lifeTime; // this will be the lifetime of the bullet
+    public float lifeTime;
 
-    // METHODS
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void OnEnable()
     {
-        StartCoroutine(DeathDelay());
+        StartCoroutine(DeactivateAfterTime());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator DeactivateAfterTime()
     {
-        
+        yield return new WaitForSeconds(lifeTime); // Wait for lifeTime seconds
+        if (BulletPoolingAdriana.Instance != null)
+        {
+            BulletPoolingAdriana.Instance.ReturnBullet(gameObject); // Return to pool when time is up
+            Debug.LogError("BulletPool is missing from the scene");
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy if pool is missing for whatever reason idk why this happens but it does
+        }
+
     }
 
-    IEnumerator DeathDelay()
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        yield return new WaitForSeconds(lifeTime);
-        Destroy(gameObject);
+        // Handle collision logic (damage enemies)
+        BulletPoolingAdriana.Instance.ReturnBullet(gameObject); // Return to pool when hitting something
     }
 }

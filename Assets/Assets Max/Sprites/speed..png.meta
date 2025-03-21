@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d1bec90fa55ac504585db2cb20e71bf4
+guid: 6a3983136d2b82343b8cac9414b40aa7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5359986216648080172
-    second: Rectangle 5_0
+      213: 3526397073860040096
+    second: speed._0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rectangle 5_0
+      name: speed._0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 659
-        height: 101
+        x: 39
+        y: 29
+        width: 172
+        height: 192
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c2b7c4cc01f726a40800000000000000
-      internalID: 5359986216648080172
+      spriteID: 0a5976c747740f030800000000000000
+      internalID: 3526397073860040096
       vertices: []
       indices: 
       edges: []
@@ -135,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Menu_button_0: -7383357740008599782
+      speed._0: 3526397073860040096
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

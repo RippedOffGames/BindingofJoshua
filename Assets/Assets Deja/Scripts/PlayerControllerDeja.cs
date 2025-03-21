@@ -3,35 +3,27 @@ using UnityEngine;
 
 public class PlayerControllerDeja : MonoBehaviour
 {
-    private float baseSpeed = 5f;
-    private float baseFireRate = 0.5f;
-    private float currentSpeed;
-    private float currentFireRate;
-    private int health = 100;
+    public float health = 100f;
+    public int damage = 10;
+    public float speed;
 
-    private void Start()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        currentSpeed = baseSpeed;
-        currentFireRate = baseFireRate;
+        ApplyPowerUp(other.gameObject.tag);
+        Destroy(other.gameObject); // Remove power-up after applying
     }
 
-    public IEnumerator ApplySpeedBoost(float multiplier, float duration)
+    void ApplyPowerUp(string powerUpTag)
     {
-        currentSpeed *= multiplier;
-        yield return new WaitForSeconds(duration);
-        currentSpeed = baseSpeed;
+        IMovementStrategyDeja strategy = StrategyFactoryDeja.GetStrategy(powerUpTag);
+        if (strategy != null)
+        {
+            speed = strategy.GetSpeed();
+            health += strategy.GetHealthBoost();
+            damage += strategy.GetDamageBoost();
+
+            Debug.Log($"Power-up Applied! Speed: {speed}, Health: {health}, Damage: {damage}");
+        }
     }
 
-    public IEnumerator ApplyFireRateBoost(float multiplier, float duration)
-    {
-        currentFireRate /= multiplier; // Faster shooting = decrease delay
-        yield return new WaitForSeconds(duration);
-        currentFireRate = baseFireRate;
-    }
-
-    public void IncreaseHealth(float amount)
-    {
-        health += (int)amount;
-        if (health > 100) health = 100; // Cap at max health
-    }
 }

@@ -135,12 +135,21 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
 <<<<<<< Updated upstream
+<<<<<<<< Updated upstream:Assets/Assets Deja/Sprites/Group 1.png.meta
+<<<<<<< Updated upstream
     nameFileIdTable:
 <<<<<<<< Updated upstream:Assets/Assets Deja/Sprites/Group 1.png.meta
       Group 1_0: 2641698482785147981
 ========
       dmg._0: 4976100089409927622
 >>>>>>>> Stashed changes:Assets/Assets Max/Sprites/dmg..png.meta
+=======
+    nameFileIdTable: {}
+>>>>>>> Stashed changes
+========
+    nameFileIdTable:
+      Menu_button_0: -7383357740008599782
+>>>>>>>> Stashed changes:Assets/Assets Max/Sprites/Menu_button.png.meta
 =======
     nameFileIdTable: {}
 >>>>>>> Stashed changes

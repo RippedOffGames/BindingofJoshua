@@ -3,14 +3,14 @@ using UnityEngine;
 public class RangedEnemy : Enemy
 {
     [SerializeField]
-    private float minDistanceFromPlayer;
+    private float maxDistanceFromPlayer;
     private Transform playerTransform;
     [SerializeField]
     private float bulletCooldown = 2f;
     private float nextBulletTime;
-    void Start()
+    void Awake()
     {
-        GameObject player = GameObject.Find("Joshua(Player");
+        GameObject player = GameObject.Find("Joshua(Player)");
         if (player != null)
         {
             playerTransform = player.transform;
@@ -27,7 +27,7 @@ public class RangedEnemy : Enemy
     public override void Move()
     {
         float distance = Vector3.Distance(transform.position, playerTransform.position);
-        if (distance < minDistanceFromPlayer)
+        if (distance > maxDistanceFromPlayer)
         {
             Vector3 direction = (playerTransform.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;

@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class TrapEnemy : Enemy
 {
-    [SerializeField]
-    private GameObject trapPrefab;
+    //[SerializeField]
+    //private GameObject trapPrefab;
     private Transform playerTransform;
     [SerializeField]
     private float trapCooldown = 3f;
     private float nextTrapTime = 0;
-    private void Start()
+    private void Awake()
     {
-        GameObject player = GameObject.Find("Joshua(Player");
+        GameObject player = GameObject.Find("Joshua(Player)");
         if (player != null)
         {
             playerTransform = player.transform;

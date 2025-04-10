@@ -8,8 +8,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     protected float speed;
     [SerializeField]
-    private GameObject damageNumberPrefab;  
-    private Transform damageNumberSpawnPoint;
+    private int damage = 1;
+    protected bool isShaking = false;
     public abstract void Attack();
     public abstract void Move();
 
@@ -28,6 +28,28 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("bullet"))
+        {
+            TakeDamage(1);
+            BulletPoolingAdriana.Instance.ReturnBullet(other.gameObject);
+        }
+    }
+
+    void ApplyPowerUp(string powerUpTag)
+    {
+        IMovementStrategyDeja strategy = StrategyFactoryDeja.GetStrategy(powerUpTag);
+        if (strategy != null)
+        {
+            speed = strategy.GetSpeed();
+            health += strategy.GetHealthBoost();
+            damage += strategy.GetDamageBoost();
+
+            Debug.Log($"Power-up Applied! Speed: {speed}, Health: {health}, Damage: {damage}");
+        }
+    }
     private void ResetColor()
     {
         SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
@@ -40,16 +62,19 @@ public abstract class Enemy : MonoBehaviour
     }
     private IEnumerator ShakeEffect()
     {
-        Vector3 originalPosition = transform.position;
+        isShaking = true;
+        Vector3 originalPosition = transform.localPosition;
         float shakeAmount = 0.1f;
 
         for (int i = 0; i < 5; i++)
         {
-            transform.position = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
+            Vector3 offset = Random.insideUnitCircle * shakeAmount;
+            transform.localPosition = originalPosition + offset;
             yield return new WaitForSeconds(0.02f);
         }
 
-        transform.position = originalPosition;
+        transform.localPosition = originalPosition;
+        isShaking = false;
     }
 }
 

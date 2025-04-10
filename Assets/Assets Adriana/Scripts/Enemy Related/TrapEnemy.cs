@@ -32,6 +32,8 @@ public class TrapEnemy : Enemy
 
     public override void Move()
     {
+        if (isShaking || playerTransform == null) return;
+
         Vector3 direction = (playerTransform.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
     }

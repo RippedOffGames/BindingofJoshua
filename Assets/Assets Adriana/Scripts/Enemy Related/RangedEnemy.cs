@@ -26,11 +26,29 @@ public class RangedEnemy : Enemy
 
     public override void Move()
     {
+        if (isShaking)
+        {
+       
+            return;
+        }
+
+        if (playerTransform == null)
+        {
+          
+            return;
+        }
+
         float distance = Vector3.Distance(transform.position, playerTransform.position);
+    
+
         if (distance > maxDistanceFromPlayer)
         {
             Vector3 direction = (playerTransform.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
+        }
+        else
+        {
+       
         }
     }
     public override void Attack()

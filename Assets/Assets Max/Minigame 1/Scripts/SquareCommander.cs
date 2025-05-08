@@ -19,4 +19,14 @@ public class SquareCommander : MonoBehaviour
     {
         ChangeMood(new ChillMood());
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log("Game Over!");
+            Time.timeScale = 0f;
+        }
+    }
+
 }

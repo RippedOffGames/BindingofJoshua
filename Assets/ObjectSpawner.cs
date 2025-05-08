@@ -11,8 +11,9 @@ public class ObjectSpawner : MonoBehaviour
 {
     // Variables
     public enum ObjectType { Damagepowerup, Jumppowerup, Speedpowerup, Enemy }
+
     public Tilemap tilemap;
-    public GameObject[] objectPrefabs;            
+    public GameObject[] objectPrefabs;
     public float enemyProbability = 0.1f;
     public float DamageProbability = 0.1f;
     public float JumpProbability = 0.1f;
@@ -23,11 +24,10 @@ public class ObjectSpawner : MonoBehaviour
     public EnemyFactory enemyFactory;
     public float flyingEnemyHeightOffset = 2.5f;
 
-
-    private List<Vector3> validSpawnPositions = new List<Vector3>();
+    private List<Vector3> groundSpawnPositions = new List<Vector3>();
+    private List<Vector3> flyingSpawnPositions = new List<Vector3>();
     private List<GameObject> spawnObjects = new List<GameObject>();
     private bool isSpawning = false;
-
 
     //Methods
     void Start()
@@ -75,43 +75,56 @@ public class ObjectSpawner : MonoBehaviour
 
     private void SpawnObject()
     {
-        if (validSpawnPositions.Count == 0) return;
+        ObjectType type = RandomObjectType();
+        bool isFlying = false;
+        string subtype = "";
+        List<Vector3> sourceList;
 
-        // pick a random free position
+        if (type == ObjectType.Enemy)
+        {
+            isFlying = Random.value < 0.5f;
+            subtype = isFlying ? "Flying" : "Basic";
+            sourceList = isFlying ? flyingSpawnPositions : groundSpawnPositions;
+        }
+        else
+        {
+            sourceList = groundSpawnPositions;
+        }
+
+        if (sourceList.Count == 0) return;
+
         Vector3 spawnPos = Vector3.zero;
         bool found = false;
-        var positions = new List<Vector3>(validSpawnPositions);
+        var positions = new List<Vector3>(sourceList);
+
         while (!found && positions.Count > 0)
         {
             int idx = Random.Range(0, positions.Count);
             Vector3 candidate = positions[idx];
+
             if (!PositionHasObject(candidate + Vector3.left) && !PositionHasObject(candidate + Vector3.right))
             {
                 spawnPos = candidate;
                 found = true;
             }
+
             positions.RemoveAt(idx);
         }
+
         if (!found) return;
 
-        // spawn based on type
-        ObjectType type = RandomObjectType();
         GameObject go = null;
 
         if (type == ObjectType.Enemy && enemyFactory != null)
         {
-            string subtype = (Random.value < 0.5f) ? "Basic" : "Flying";
             go = enemyFactory.CreateEnemy(subtype);
 
-            // Apply different spawn height for flying enemies
             Vector3 actualSpawnPos = spawnPos;
             if (subtype == "Flying")
-                actualSpawnPos += new Vector3(0, flyingEnemyHeightOffset, 0); // elevate flyers
+                actualSpawnPos += new Vector3(0, flyingEnemyHeightOffset, 0);
 
             go.transform.position = actualSpawnPos;
         }
-
-
         else
         {
             go = Instantiate(objectPrefabs[(int)type], spawnPos, Quaternion.identity);
@@ -124,18 +137,26 @@ public class ObjectSpawner : MonoBehaviour
 
     public void GatherValidPositions()
     {
-        validSpawnPositions.Clear();
+        groundSpawnPositions.Clear();
+        flyingSpawnPositions.Clear();
+
         BoundsInt bounds = tilemap.cellBounds;
         TileBase[] tiles = tilemap.GetTilesBlock(bounds);
         Vector3 worldStart = tilemap.CellToWorld(new Vector3Int(bounds.xMin, bounds.yMin, 0));
 
         for (int x = 0; x < bounds.size.x; x++)
+        {
             for (int y = 0; y < bounds.size.y; y++)
             {
                 TileBase t = tiles[x + y * bounds.size.x];
                 if (t != null)
-                    validSpawnPositions.Add(worldStart + new Vector3(x + 0.5f, y + 2f, 0));
+                {
+                    Vector3 basePos = worldStart + new Vector3(x + 0.5f, y + 0.5f, 0);
+                    groundSpawnPositions.Add(basePos + Vector3.up * 1.5f);
+                    flyingSpawnPositions.Add(basePos + Vector3.up * 4f);
+                }
             }
+        }
     }
 
     private IEnumerator DestroyObjectAfterTime(GameObject obj, float t)
@@ -144,7 +165,6 @@ public class ObjectSpawner : MonoBehaviour
         if (obj)
         {
             spawnObjects.Remove(obj);
-            validSpawnPositions.Add(obj.transform.position);
             Destroy(obj);
         }
     }

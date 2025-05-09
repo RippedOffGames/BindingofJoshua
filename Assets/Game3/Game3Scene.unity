@@ -193,19 +193,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c7fc629c608184190c7027c018f7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 1863889286}
-  objectPrefabs:
-  - {fileID: 8007698432000940277, guid: b74925f0bcf66334da7ac6fbada7b28f, type: 3}
-  - {fileID: 2841674314301139858, guid: 1431232ef7c64bf42af72cceb6283e80, type: 3}
-  - {fileID: 8483948481475863990, guid: 9c3fd479a174411468a2e3b22e482d4e, type: 3}
-  enemyProbability: 100
-  DamageProbability: 100
-  JumpProbability: 100
-  SpeedProbability: 100
+  tilemap: {fileID: 0}
+  objectPrefabs: []
+  enemyProbability: 0.1
+  DamageProbability: 0.1
+  JumpProbability: 0.1
+  SpeedProbability: 0.1
   maxObjects: 3
   powerupLifetime: 10
-  spawnInterval: 1
-  enemyFactory: {fileID: 1423351700361163372, guid: b08c347bf6ef8d34c91294e2077637e1, type: 3}
+  spawnInterval: 0.5
+  enemyFactory: {fileID: 0}
   flyingEnemyHeightOffset: 2.5
 --- !u!4 &755265757
 Transform:
@@ -1018,7 +1015,7 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0, z: 0}
-  Damping: {x: 1, y: 1, z: 1}
+  Damping: {x: 0, y: 0, z: 0}
   Lookahead:
     Enabled: 0
     Time: 0
@@ -1044,14 +1041,14 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 1980475776}
+    TrackingTarget: {fileID: 0}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 60
-    OrthographicSize: 3.471978
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FieldOfView: 40
+    OrthographicSize: 10
+    NearClipPlane: 0.1
+    FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -1129,7 +1126,7 @@ MonoBehaviour:
   groundCheckSize: {x: 0.5, y: 0.04}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   baseGravity: 2
   maxFallSpeed: 2
   fallSpeedMultiplier: 2
@@ -1550,11 +1547,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 40
   orthographic: 1
-  orthographic size: 3.471978
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

@@ -281,9 +281,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 755265755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02c7fc629c608184190c7027c018f7b2, type: 3}
+  m_Script: {fileID: 11500000, guid: fcefd010044b85e4f887055236fc967f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemap: {fileID: 1863889286}
+  objectPrefabs:
+  - {fileID: 8007698432000940277, guid: b74925f0bcf66334da7ac6fbada7b28f, type: 3}
+  - {fileID: 2841674314301139858, guid: 1431232ef7c64bf42af72cceb6283e80, type: 3}
+  - {fileID: 8483948481475863990, guid: 9c3fd479a174411468a2e3b22e482d4e, type: 3}
+  enemyProbability: 100
+  DamageProbability: 100
+  JumpProbability: 100
+  SpeedProbability: 100
+  maxObjects: 1
+  powerupLifetime: 10
+  spawnInterval: 0.5
+  enemyFactory: {fileID: 1423351700361163372, guid: b08c347bf6ef8d34c91294e2077637e1, type: 3}
+  flyingEnemyHeightOffset: 2.5
 --- !u!4 &755265757
 Transform:
   m_ObjectHideFlags: 0

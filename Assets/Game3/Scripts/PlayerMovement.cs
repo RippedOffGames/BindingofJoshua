@@ -25,7 +25,9 @@ public class PlayerMovement : MonoBehaviour
     private IPlayerState currentState;
     public float HorizontalInput;
     private bool jumpPressed;
-        
+    public void ClearJumpInput() => jumpPressed = false;
+
+
 
     //Methods
     void Start()
@@ -105,22 +107,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (jumpsRemaining > 0)
+        if (context.performed)
         {
-            if (context.performed)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
-                jumpsRemaining--;
-                animator.SetTrigger("Jump");
-            }
-            else if (context.canceled)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
-                jumpsRemaining--;
-                animator.SetTrigger("Jump");
-            }
+            jumpPressed = true;
+        }
+        else if (context.canceled)
+        {
+            jumpPressed = false;
         }
     }
+
 
 
 

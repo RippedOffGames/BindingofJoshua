@@ -14,16 +14,12 @@ public class MovingState : IPlayerState
 
     public void HandleInput(PlayerMovement player)
     {
-        if (Mathf.Abs(player.HorizontalInput) < 0.1f)
-        {
-            player.TransitionToState(new IdleState());
-        }
-
         if (player.IsJumpPressed() && player.CanJump())
         {
             player.TransitionToState(new JumpingState());
         }
     }
+
 
     public void Update(PlayerMovement player)
     {

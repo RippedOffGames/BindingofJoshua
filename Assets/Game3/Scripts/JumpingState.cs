@@ -10,7 +10,9 @@ public class JumpingState : IPlayerState
     public void Enter(PlayerMovement player)
     {
         player.PerformJump();
+        player.ClearJumpInput();
     }
+
 
     public void HandleInput(PlayerMovement player) { }
 

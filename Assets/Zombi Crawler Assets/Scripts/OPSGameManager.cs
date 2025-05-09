@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 /*
@@ -44,7 +45,6 @@ public class OPSGameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -124,7 +124,11 @@ public class OPSGameManager : MonoBehaviour
     {
         enemiesAlive--;
     }
- 
+        
+    public void PlayerDied()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
     public void AddRampageCharge()
     {
         rampageCharges++;

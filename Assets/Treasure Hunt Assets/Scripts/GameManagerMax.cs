@@ -1,5 +1,6 @@
 using TMPro; // <-- Add this
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManagerMax : MonoBehaviour
@@ -46,5 +47,7 @@ public class GameManagerMax : MonoBehaviour
         }
 
         Debug.Log("Game Over! Score: " + scoreThing.myScore);
+        SceneManager.LoadScene("MainMenu");
     }
+
 }

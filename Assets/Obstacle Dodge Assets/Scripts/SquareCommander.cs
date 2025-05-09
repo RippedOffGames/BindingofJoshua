@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // STATE PATTERN
 public class SquareCommander : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class SquareCommander : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Game Over!");
-            Time.timeScale = 0f;
+            SceneManager.LoadScene("MainMenu");
         }
     }
 

@@ -5,9 +5,24 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Zombi Crawler Assets/Scenes/SampleScene.unity
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/MainMenu/Scenes/MainMenu.unity
+    guid: 4ad393e31336e9740942370ee6ee0966
+  - enabled: 1
+    path: Assets/Game3/Game3Scene.unity
+    guid: 6c8204af4bfc22e4c9a4928e69182b1c
+  - enabled: 1
+    path: Assets/Obstacle Dodge Assets/Scene/Main.unity
+    guid: d459c84fce11f444f9ddb9eb88e0583f
+  - enabled: 1
+    path: Assets/Treasure Hunt Assets/Scenes/Seeker.unity
+    guid: a70234403ec314947ae2afe51215a3e3
+  - enabled: 1
+    path: Assets/Zombi Crawler Assets/Scenes/zombie crawler.unity
+    guid: 354d0b77f0dbbc6459d0ef4cdab91073
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   m_UseUCBPForAssetBundles: 0

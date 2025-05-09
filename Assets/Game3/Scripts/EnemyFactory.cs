@@ -1,6 +1,7 @@
 //Deja Hang
 //5/6/25
-
+// FACTORY PATTERN
+// Creates enemy prefabs based on a given type string
 
 using UnityEngine;
 

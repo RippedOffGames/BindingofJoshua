@@ -1,6 +1,6 @@
 //Deja Hang
 //5/6/25
-
+// Inherits and uses the enemy interface
 
 using UnityEngine;
 

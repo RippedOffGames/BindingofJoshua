@@ -11,9 +11,10 @@ public static class ServiceLocator
         lookUp[typeof(T)] = thing;
     }
 
+    // grabs the service based on its type, other scripts access services without needing reference directly
     public static T Get<T>() where T : IService
     {
-        return (T)lookUp[typeof(T)];
+        return (T)lookUp[typeof(T)]; 
     }
 
     public static void ClearAll()

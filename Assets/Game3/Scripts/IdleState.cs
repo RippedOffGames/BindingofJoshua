@@ -1,6 +1,7 @@
 //Deja Hang
 //5/6/25
-
+// STATE PATTERN IMPLEMENTATION
+// Each of these represents a state the player can be in
 using UnityEngine;
 
 public class IdleState : IPlayerState
@@ -13,11 +14,16 @@ public class IdleState : IPlayerState
 
     public void HandleInput(PlayerMovement player)
     {
-        if (Mathf.Abs(player.HorizontalInput) > 0.1f)
+        if (player.IsJumpPressed() && player.CanJump())
+        {
+            player.TransitionToState(new JumpingState());
+        }
+        else if (player.GetHorizontal() != 0)
         {
             player.TransitionToState(new MovingState());
         }
     }
+
 
     public void Update(PlayerMovement player) { }
 

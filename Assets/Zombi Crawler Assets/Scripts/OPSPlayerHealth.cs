@@ -53,5 +53,6 @@ public class OPSPlayerHealth : MonoBehaviour, IRampageObserver
     private void Die()
     {
         Destroy(gameObject);
+        OPSGameManager.Instance.PlayerDied();
     }
 }

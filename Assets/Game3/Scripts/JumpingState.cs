@@ -1,6 +1,7 @@
 //Deja Hang
 //5/6/25
-
+// STATE PATTERN IMPLEMENTATION
+// Each of these represents a state the player can be in
 using UnityEngine;
 
 public class JumpingState : IPlayerState

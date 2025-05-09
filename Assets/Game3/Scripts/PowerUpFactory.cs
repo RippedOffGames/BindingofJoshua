@@ -1,5 +1,7 @@
 //Deja Hang
 //5/6/25
+// FACTORY + STRATEGY PATTERN
+// Returns the correct strategy object based on tag
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

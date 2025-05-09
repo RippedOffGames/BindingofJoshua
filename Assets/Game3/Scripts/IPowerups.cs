@@ -1,5 +1,7 @@
 //Deja Hang
 //5/6/25
+// STRATEGY PATTERN INTERFACE
+// Defines the behavior contract for all power-up types
 
 using UnityEngine;
 

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 // STATE PATTERN
+// class uses the state pattern to change square's behavior
+// 'Mood' in this case is a state, current state is stored in currentMood
 public class SquareCommander : MonoBehaviour
 {
     private ISquareMood currentMood;
